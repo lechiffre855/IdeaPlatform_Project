@@ -1,9 +1,5 @@
 package org.test;
 
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
 import org.test.model.Ticket;
 
 import java.io.File;
@@ -20,7 +16,7 @@ public class Main {
                 .toURI()
                 .getPath();
         File file = new File(jarPath);
-        File defaultFile = new File(file.getParentFile(), "tickets.json");
+        File defaultFile = new File(file.getParentFile().getParentFile(), "tickets/tickets.json");
         String defaultPath = defaultFile.getAbsolutePath();
 
         String defaultOriginName = "Владивосток";
