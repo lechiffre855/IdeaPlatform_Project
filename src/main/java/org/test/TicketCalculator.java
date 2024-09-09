@@ -20,11 +20,14 @@ public class TicketCalculator {
             return "Билетов по данным направлениям нет в списке.";
         }
 
-        stringBuilder.append("Минимальное время полета по направлению ").append(destinationName).append(":\n").append("\n");
+        stringBuilder.append("Минимальное время полета по направлению ").append(directionName).append(":\n").append("\n");
 
         for (Map.Entry<String, Set<Duration>> entry : carrier_time_Map.entrySet()) {
             TreeSet<Duration> durationSet = (TreeSet<Duration>) entry.getValue();
-            stringBuilder.append(entry.getKey()).append(" - ").append(durationSet.first()).append(";\n");
+            stringBuilder.append(entry.getKey()).append(" - ")
+                    .append(durationSet.first().toHours()).append(" ч. ")
+                    .append(durationSet.first().minusHours(durationSet.first().toHours()).toMinutes()).append(" мин.")
+                    .append(";\n");
         }
         return stringBuilder.toString();
     }
@@ -47,7 +50,7 @@ public class TicketCalculator {
             stringBuilder.append("средняя цена выше медианы.\n");
         else if (averagePrice<medianPrice)
             stringBuilder.append("медиана выше средней цены.\n");
-        stringBuilder.append("Их разница равна ").append(difference).append(".");
+        stringBuilder.append("Их разница составляет ").append(difference).append(".");
 
         return stringBuilder.toString();
     }
@@ -57,7 +60,7 @@ public class TicketCalculator {
         String directionName = originName + " - " + destinationName;
 
         for (Ticket ticket : tickets) {
-            if ((ticket.getOriginName() + " - " + ticket.getDestination()).equals(directionName)) {
+            if ((ticket.getOriginName() + " - " + ticket.getDestinationName()).equals(directionName)) {
                 prices_List.add(ticket.getPrice());
             }
         }
@@ -82,13 +85,17 @@ public class TicketCalculator {
                 .toList();
 
         int listSize = pricesList.size();
+        if (listSize == 0){
+            return 0;
+        }
+
         int modulo = listSize%2;
 
         if (modulo!=0){
             return pricesList.get(listSize/2);
         } else {
-            double price1 = pricesList.get((listSize/2)-1);
-            double price2 = pricesList.get(listSize/2);
+            double price1 = pricesList.get(listSize/2 -1);
+            double price2 = pricesList.get(listSize/2) ;
 
             return (price1 + price2)/2;
         }

@@ -13,9 +13,6 @@ import java.net.URISyntaxException;
 public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
 
-        Terminal terminal = TerminalBuilder.terminal();
-        LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
-
         String jarPath = Main.class
                 .getProtectionDomain()
                 .getCodeSource()
@@ -26,12 +23,10 @@ public class Main {
         File defaultFile = new File(file.getParentFile(), "tickets.json");
         String defaultPath = defaultFile.getAbsolutePath();
 
-        String path = lineReader.readLine("Введите путь к файлу:\n", null, defaultPath);
+        String defaultOriginName = "Владивосток";
+        String defaultDestinationName = "Тель-Авив";
 
-        String originName = lineReader.readLine("Введите город отправления:\n", null, "Владивосток");
-        String destinationName = lineReader.readLine("Введите город назначения:\n", null, "Тель-Авив");
-
-        FileReader fileReader = new FileReader(path);
+        FileReader fileReader = new FileReader(defaultPath);
         String fileText = fileReader.readFile();
 
         TicketParser ticketParser = new TicketParser();
@@ -39,10 +34,11 @@ public class Main {
 
         TicketCalculator ticketCalculator = new TicketCalculator();
 
-        String minFlightTimeByEveryCarrierText = ticketCalculator.getMinFlightTimeByEveryCarrier(tickets, originName, destinationName);
+        String minFlightTimeByEveryCarrierText
+                = ticketCalculator.getMinFlightTimeByEveryCarrier(tickets, defaultOriginName, defaultDestinationName);
 
         String averagePriceAndMedianPriceByDirectionText
-                = ticketCalculator.getAveragePriceAndMedianPriceByDirection(tickets, originName, destinationName);
+                = ticketCalculator.getAveragePriceAndMedianPriceByDirection(tickets, defaultOriginName, defaultDestinationName);
 
         System.out.println(minFlightTimeByEveryCarrierText + "\n" + averagePriceAndMedianPriceByDirectionText);
     }

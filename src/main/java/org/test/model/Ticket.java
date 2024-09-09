@@ -20,17 +20,17 @@ public class Ticket {
         private double price;
 
         @JsonCreator
-        public Ticket(String origin,
+        public Ticket(@JsonProperty("origin") String origin,
                       @JsonProperty("origin_name") String originName,
-                      String destination,
+                      @JsonProperty("destination") String destination,
                       @JsonProperty("destination_name") String destinationName,
                       @JsonProperty("departure_date") String departureDate,
                       @JsonProperty("departure_time") String departureTime,
                       @JsonProperty("arrival_date") String arrivalDate,
                       @JsonProperty("arrival_time") String arrivalTime,
-                      String carrier,
-                      int stops,
-                      double price) {
+                      @JsonProperty("carrier") String carrier,
+                      @JsonProperty("stops") int stops,
+                      @JsonProperty("price") double price) {
                 this.origin = origin;
                 this.originName = originName;
                 this.destination = destination;
@@ -49,7 +49,6 @@ public class Ticket {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         public String getOrigin() {

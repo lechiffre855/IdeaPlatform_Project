@@ -21,6 +21,8 @@ public class TicketParser {
             throw new BadJsonTicketException("Json Ticket is null or empty!");
         }
 
+        jsonTicket = jsonTicket.replace("\uFEFF", "");
+
         try {
             JsonNode ticketArrayNode = mapper.readTree(jsonTicket).get("tickets");
             return mapper.treeToValue(ticketArrayNode, Ticket[].class);
