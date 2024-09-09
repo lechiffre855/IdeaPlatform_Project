@@ -38,4 +38,5 @@ build/
 .DS_Store
 
 /tickets/*
-!tickets/
+!/tickets/
+!/tickets/.gitkeep
